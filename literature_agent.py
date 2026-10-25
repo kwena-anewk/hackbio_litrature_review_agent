@@ -11,6 +11,7 @@ Usage:
 
 import argparse
 import os
+import sys
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field
 
@@ -211,6 +212,8 @@ def main() -> None:
     parser.add_argument("--query", help="PubMed search query (defaults to the question)")
     parser.add_argument("-n", "--max-results", type=int, default=10, help="Number of articles to review")
     args = parser.parse_args()
+    # Windows consoles default to cp1252, which garbles dashes and Greek letters.
+    sys.stdout.reconfigure(encoding="utf-8")
     print(run_agent(args.question, query=args.query, max_results=args.max_results))
 
 
